@@ -35,6 +35,9 @@ gem 'ots'
 group :test do
   gem 'cucumber-rails', :require => false
   gem 'database_cleaner'
+end
+
+group :development do
   gem 'sqlite3'
 end
 

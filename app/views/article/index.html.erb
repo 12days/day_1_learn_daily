@@ -5,6 +5,7 @@
 <%= page.css('div#mw-content-text p').each do |p| %>
   <% summary << "\n  " + p.text.gsub(/\[\d+\]/,'') %>
 <% end %>
-<%= OTS.parse(summarize.gsub(/[\n]+/, '<br>')).summarize(sentences: 6) %>
+<% article = OTS.parse(summary) %>
+<%= article.summarize(sentences: 5) %>
 
 

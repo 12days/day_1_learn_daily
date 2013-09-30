@@ -2,10 +2,12 @@
 <%= page.css('h1.firstHeading').text %>
 <br><br>
 <% summary = '' %>
-<%= page.css('div#mw-content-text p').each do |p| %>
+<% page.css('div#mw-content-text p').each do |p| %>
   <% summary << "\n  " + p.text.gsub(/\[\d+\]/,'') %>
 <% end %>
 <% article = OTS.parse(summary) %>
-<%= article.summarize(sentences: 5) %>
+<% article.summarize(sentences: 5).each do |s| %>
+  <%= s['sentence'] %>
+<% end %>
 
 

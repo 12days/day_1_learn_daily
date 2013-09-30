@@ -1,5 +1,10 @@
-Hello World!
+<% page = random %>
+<%= page.css('h1.firstHeading').text %>
+<br><br>
+<% summary = '' %>
+<%= page.css('div#mw-content-text p').each do |p| %>
+  <% summary << "\n  " + p.text.gsub(/\[\d+\]/,'') %>
+<% end %>
+<%= OTS.parse(summarize.gsub(/[\n]+/, '<br>')).summarize(sentences: 6) %>
 
-<div class='article'>
-  this is text
-</div>
+

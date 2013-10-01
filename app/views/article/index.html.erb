@@ -26,16 +26,24 @@
     $('.article').each(function(){
       var that = this;
       $(that).children('.topic').children('button').click(function(){
-        that.remove();
-        reorder();
+        removeArticle($(that));
       })
-    })
+    }),
     addArticle = function(){
-      AJAX
-      console.log('add article called')
+      $.getJSON("/random", function(data, status){
+        console.log("adding article");
+        if (status == 'success') {
+          console.log(data)
+          var article = buildArticle(data);
+          appendArticle(article)
+        }
+        else {
+          addArticle();
+        }
+      })
     },
     reorder = function(){
-      var count = 1
+      var count = 0
       $('.article').each (function(){
         var that = this;
         if (count % 2 == 0) {
@@ -46,6 +54,34 @@
         }
         count++
       })
+    },
+    buildArticle = function(data){
+      el = $("<div class='article'>");
+      el.append($("<div class='topic'>").text(data['title']));
+      el.text(data['body']);
+      addArticleButton(el)
+      return el
+    },
+    addArticleButton = function(el){
+      var button = $(el).children('.topic').children('button').append($('<button>remove</button'))
+      button.click(function(){
+        that.remove();
+        addArticle();
+        reorder();
+      })
+    },
+    removeArticle = function(el) {
+      el.remove();
+      addArticle();
+      reorder();
+    }
+    appendArticle = function(el){
+      $('.content').append(el);
+      moveButton();
+      reorder();
+    },
+    moveButton = function(){
+      $('.content').children('button').appendTo('.content')
     }
   })
 </script>

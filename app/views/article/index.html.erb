@@ -1,20 +1,15 @@
 <% page = random %>
-<%= page.css('h1.firstHeading').text %>
-<br><br>
-<% summary = '' %>
-<% page.css('div#mw-content-text p').each do |p| %>
-  <% summary << p.text.gsub(/\[\d+\]/,'') %>
-<% end %>
-<% article = OTS.parse(summary) %>
-<% article.summarize(sentences: 5).each do |s| %>
-  <%= s.inspect %><br><br>
-<% end %>
 
 <div class="content">
 
   <div class="article">
 
-    <div class="topic"><%= page.css('h1.firstHeading').text %></div>
+    <div class="topic">
+      <%= page.css('h1.firstHeading').text %>
+      <button>
+        remove
+      </button>
+    </div>
 
     <br /><br />
     <% summary = '' %>
@@ -30,4 +25,20 @@
 
   </div>
 
+  <button>
+    Article+
+  </button>
 </div>
+
+<script>
+  $(function(){
+    $('.article').each(function(){
+      var that = this;
+      $(that).children('.topic').children('button').click(function(){
+        that.remove();
+      })
+    })
+  })
+</script>
+
+

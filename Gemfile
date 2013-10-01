@@ -37,7 +37,9 @@ group :test do
   gem 'database_cleaner'
 end
 
-gem 'sqlite3'
+group :test, :development do
+  gem 'sqlite3', '1.3.8'
+end
 
 group :production do
   gem 'pg', '0.15.1'

@@ -6,5 +6,3 @@
 ##Re-cap of the day
 > Recall that all apps in this series are spec'd, built, and deployed in one day
 > This is a high-level process that we followed today, and hope to repeat/refine during next project
-
-1.

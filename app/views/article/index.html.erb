@@ -10,4 +10,24 @@
   <%= s.inspect %><br><br>
 <% end %>
 
+<div class="content">
 
+  <div class="article">
+
+    <div class="topic"><%= page.css('h1.firstHeading').text %></div>
+
+    <br /><br />
+    <% summary = '' %>
+    <% page.css('div#mw-content-text p').each do |p| %>
+      <% summary << p.text.gsub(/\[\d+\]/,' ') %>
+    <% end %>
+    <% article = OTS.parse(summary) %>
+
+    <% article.summarize(sentences: 3).each do |s| %>
+      <%= s[:sentence] %>
+      <br /><br />
+    <% end %>
+
+  </div>
+
+</div>

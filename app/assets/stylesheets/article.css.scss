@@ -18,8 +18,16 @@ body {
   height: auto;
   padding: 1em;
   margin: 0;
-  background-color: #33CCCC
 }
+
+.article.even {
+  background-color: #33CCAA
+}
+
+.article.odd {
+  background-color: #11FFCC
+}
+
 
 .topic {
   font-size: 2em;

@@ -1,33 +1,24 @@
-<% page = random %>
-
 <div class="content">
+  <% 5.times do |i| %>
+    <div class="article <%= i.odd? ? 'odd' : 'even' %>">
+      <% article = Article.random %>
+      <div class="topic">
+        <%= article.title %>
+        <button>
+          remove
+        </button>
+      </div>
 
-  <div class="article">
+      <br /><br />
+        <%= article.body %>
+      <br /><br />
 
-    <div class="topic">
-      <%= page.css('h1.firstHeading').text %>
-      <button>
-        remove
-      </button>
     </div>
 
-    <br /><br />
-    <% summary = '' %>
-    <% page.css('div#mw-content-text p').each do |p| %>
-      <% summary << p.text.gsub(/\[\d+\]/,' ') %>
-    <% end %>
-    <% article = OTS.parse(summary) %>
-
-    <% article.summarize(sentences: 3).each do |s| %>
-      <%= s[:sentence] %>
-      <br /><br />
-    <% end %>
-
-  </div>
-
-  <button>
-    Article+
-  </button>
+  <% end %>
+    <button>
+      Article+
+    </button>
 </div>
 
 <script>
@@ -35,9 +26,68 @@
     $('.article').each(function(){
       var that = this;
       $(that).children('.topic').children('button').click(function(){
-        that.remove();
+        removeArticle($(that));
       })
-    })
+    }),
+    $('.content').children('button').click(function(){
+        addArticle();
+    }),
+    addArticle = function(){
+      $.getJSON("/random", function(data, status){
+        console.log("adding article");
+        if (status == 'success') {
+          console.log(data)
+          var article = buildArticle(data);
+          appendArticle(article)
+        }
+        else {
+          addArticle();
+        }
+      })
+    },
+    reorder = function(){
+      var count = 0
+      $('.article').each (function(){
+        var that = this;
+        if (count % 2 == 0) {
+          $(that).attr('class', 'article even')
+        }
+        else {
+          $(that).attr('class', 'article odd')
+        }
+        count++
+      })
+    },
+    buildArticle = function(data){
+      el = $("<div class='article'>");
+      var topic = $("<div class='topic'>")
+      topic.append(data['title']);
+      topic.append(buildArticleButton(el));
+      $(el).append(topic);
+      el.append(data['body']);
+      return el
+    },
+    buildArticleButton = function(el){
+      var button = $('<button></button>')
+      button.text('remove')
+      button.click(function(){
+        removeArticle(el)
+      })
+      return button
+    },
+    removeArticle = function(el) {
+      el.remove();
+      addArticle();
+      reorder();
+    }
+    appendArticle = function(el){
+      $('.content').append(el);
+      moveButton();
+      reorder();
+    },
+    moveButton = function(){
+      $('.content').children('button').appendTo('.content')
+    }
   })
 </script>
 

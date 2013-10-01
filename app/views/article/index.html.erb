@@ -3,11 +3,11 @@
 <br><br>
 <% summary = '' %>
 <% page.css('div#mw-content-text p').each do |p| %>
-  <% summary << "\n  " + p.text.gsub(/\[\d+\]/,'') %>
+  <% summary << p.text.gsub(/\[\d+\]/,'') %>
 <% end %>
 <% article = OTS.parse(summary) %>
 <% article.summarize(sentences: 5).each do |s| %>
-  <%= s['sentence'] %>
+  <%= s.inspect %><br><br>
 <% end %>
 
 

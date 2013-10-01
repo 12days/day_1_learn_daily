@@ -29,6 +29,9 @@
         removeArticle($(that));
       })
     }),
+    $('.content').children('button').click(function(){
+        addArticle();
+    }),
     addArticle = function(){
       $.getJSON("/random", function(data, status){
         console.log("adding article");
@@ -57,18 +60,20 @@
     },
     buildArticle = function(data){
       el = $("<div class='article'>");
-      el.append($("<div class='topic'>").text(data['title']));
-      el.text(data['body']);
-      addArticleButton(el)
+      var topic = $("<div class='topic'>")
+      topic.append(data['title']);
+      topic.append(buildArticleButton(el));
+      $(el).append(topic);
+      el.append(data['body']);
       return el
     },
-    addArticleButton = function(el){
-      var button = $(el).children('.topic').children('button').append($('<button>remove</button'))
+    buildArticleButton = function(el){
+      var button = $('<button></button>')
+      button.text('remove')
       button.click(function(){
-        that.remove();
-        addArticle();
-        reorder();
+        removeArticle(el)
       })
+      return button
     },
     removeArticle = function(el) {
       el.remove();

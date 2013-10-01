@@ -27,21 +27,25 @@
       var that = this;
       $(that).children('.topic').children('button').click(function(){
         that.remove();
-        var count = 1
-        $('.article').each (function(){
-          var that = this;
-          if (count % 2 == 0) {
-            that.attr('class', 'article even')
-          }
-          else {
-            that.attr('class', 'article odd')
-          }
-          count++
-        })
+        reorder();
       })
     })
     addArticle = function(){
+      AJAX
       console.log('add article called')
+    },
+    reorder = function(){
+      var count = 1
+      $('.article').each (function(){
+        var that = this;
+        if (count % 2 == 0) {
+          $(that).attr('class', 'article even')
+        }
+        else {
+          $(that).attr('class', 'article odd')
+        }
+        count++
+      })
     }
   })
 </script>

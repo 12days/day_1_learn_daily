@@ -1,33 +1,24 @@
-<% page = random %>
-
 <div class="content">
+  <% 5.times do |i| %>
+    <div class="article <%= i.odd? ? 'odd' : 'even' %>">
+      <% article = Article.random %>
+      <div class="topic">
+        <%= article.title %>
+        <button>
+          remove
+        </button>
+      </div>
 
-  <div class="article">
+      <br /><br />
+        <%= article.body %>
+      <br /><br />
 
-    <div class="topic">
-      <%= page.css('h1.firstHeading').text %>
-      <button>
-        remove
-      </button>
     </div>
 
-    <br /><br />
-    <% summary = '' %>
-    <% page.css('div#mw-content-text p').each do |p| %>
-      <% summary << p.text.gsub(/\[\d+\]/,' ') %>
-    <% end %>
-    <% article = OTS.parse(summary) %>
-
-    <% article.summarize(sentences: 3).each do |s| %>
-      <%= s[:sentence] %>
-      <br /><br />
-    <% end %>
-
-  </div>
-
-  <button>
-    Article+
-  </button>
+  <% end %>
+    <button>
+      Article+
+    </button>
 </div>
 
 <script>
@@ -36,8 +27,22 @@
       var that = this;
       $(that).children('.topic').children('button').click(function(){
         that.remove();
+        var count = 1
+        $('.article').each (function(){
+          var that = this;
+          if (count % 2 == 0) {
+            that.attr('class', 'article even')
+          }
+          else {
+            that.attr('class', 'article odd')
+          }
+          count++
+        })
       })
     })
+    addArticle = function(){
+      console.log('add article called')
+    }
   })
 </script>
 
